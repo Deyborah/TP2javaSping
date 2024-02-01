@@ -1,23 +1,30 @@
 package com.example.cinemacda4;
 
-import com.example.cinemacda4.acteur.Acteur;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/films")
 public class FilmController {
     private final FilmService filmService;
 
-    public FilmController(FilmService filmService) {
+    private final ObjectMapper objectMapper;
+
+    public FilmController(
+            FilmService filmService,
+            ObjectMapper objectMapper
+    ) {
         this.filmService = filmService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
-    public List<Film> findAll() {
-        return filmService.findAll();
+    public List<FilmReduitDto> findAll() {
+        return filmService.findAll().stream().map(
+                film -> objectMapper.convertValue(film, FilmReduitDto.class)
+        ).toList();
     }
 
     @PostMapping
@@ -26,8 +33,9 @@ public class FilmController {
     }
 
     @GetMapping("/{id}") // /films/1
-    public Film findById(@PathVariable Integer id) {
-        return filmService.findById(id);
+    public FilmCompletDto findById(@PathVariable Integer id) {
+        Film film = filmService.findById(id);
+        return objectMapper.convertValue(film, FilmCompletDto.class);
     }
 
     @DeleteMapping("/{id}")
@@ -46,4 +54,12 @@ public class FilmController {
     }
 
 
+    @GetMapping
+    public List<FilmSansActeurDto> findAlls() {
+        return filmService.findAll().stream().map(
+                film -> objectMapper.convertValue(film, FilmSansActeurDto.class)
+        ).toList();
+    }
+
 }
+

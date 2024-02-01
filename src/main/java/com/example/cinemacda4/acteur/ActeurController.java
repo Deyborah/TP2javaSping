@@ -1,47 +1,56 @@
 package com.example.cinemacda4.acteur;
 
-import com.example.cinemacda4.realisateur.Realisateur;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
-@RequestMapping("/acteur")
+@RequestMapping("/acteurs")
 public class ActeurController {
+    private final ActeurService acteurService;
 
-        private final ActeurService acteurService;
+    private final ObjectMapper objectMapper;
+    public ActeurController(
+            ActeurService acteurService,
+            ObjectMapper objectMapper
+    ) {
+        this.acteurService = acteurService;
+        this.objectMapper = objectMapper;
+    }
 
-        public ActeurController(ActeurService acteurService) {
-            this.acteurService = acteurService;
-        }
 
-        @GetMapping
-        public List<Acteur> findAll() {
-            return acteurService.findAll();
-        }
+    @PostMapping
+    public Acteur save(@RequestBody Acteur entity) {
+        return acteurService.save(entity);
+    }
 
-        @PostMapping
-        public Acteur save(@RequestBody Acteur acteur) {
-            return acteurService.save(acteur);
-        }
+    @GetMapping("/{id}")
+    public Acteur findById(@PathVariable Integer id) {
+        return acteurService.findById(id);
+    }
 
-        @GetMapping("/id")
-        public Acteur findById(Integer id) {
-            return acteurService.findById(id);
-        }
-        @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
+    public void delete(@RequestBody Acteur acteur) {
+        acteurService.delete(acteur);
+    }
 
-        public void deleteById(@PathVariable Integer id) {
-            acteurService.deleteById(id);
-        }
+    @GetMapping
+    public List<Acteur> findAll() {
+        return acteurService.findAll();
+    }
 
-        @PutMapping
-        public Acteur update(Acteur acteur) {
-            return acteurService.update(acteur);
-        }
+    @GetMapping
+    public List<ActeurSansFilmDto> findAlls() {
+        return acteurService.findAll().stream().map(
+                Acteur -> objectMapper.convertValue(Acteur, ActeurSansFilmDto.class)
+        ).toList();
+    }
 
-    @GetMapping("/search")
-    public Acteur findByFilm(@RequestParam String film) {
-        return acteurService.findByFilm(film);
+    @GetMapping("/sansFilmsPar{id}") // /films/1
+    public ActeurSansFilmDto findByIds(@PathVariable Integer id) {
+        Acteur acteur = acteurService.findById(id);
+        return objectMapper.convertValue(acteur , ActeurSansFilmDto.class);
     }
 
 }

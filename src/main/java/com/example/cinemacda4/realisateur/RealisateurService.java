@@ -1,5 +1,7 @@
 package com.example.cinemacda4.realisateur;
 
+import com.example.cinemacda4.Film;
+import com.example.cinemacda4.FilmService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,41 +12,48 @@ import java.util.List;
 public class RealisateurService {
     private final RealisateurRepository realisateurRepository;
 
-    public RealisateurService(RealisateurRepository realisateurRepository) {
+    private final FilmService filmService;
+
+    public RealisateurService(
+            RealisateurRepository realisateurRepository,
+            FilmService filmService
+    ) {
         this.realisateurRepository = realisateurRepository;
+        this.filmService = filmService;
     }
 
     public List<Realisateur> findAll() {
         return realisateurRepository.findAll();
-
     }
 
     public Realisateur save(Realisateur realisateur) {
         return realisateurRepository.save(realisateur);
     }
 
-    public Realisateur findById(Integer id) {
-        return realisateurRepository.findById(id).
-                orElseThrow(() -> new ResponseStatusException
-                        (HttpStatus.NOT_FOUND,"Realisateur Non trouvé"));
-    }
-
-    public void deleteById(Integer id) {
-        Realisateur realisateur=this.findById(id);
-        realisateurRepository.delete(realisateur);
-    }
-
-    public Realisateur update(Realisateur realisateur) {
-        return realisateurRepository.save(realisateur);
-    }
-
-    public Realisateur findByFilm(String film) {
-        return realisateurRepository.findByFilm(film)
+    public Realisateur findById(int integer) {
+        return realisateurRepository
+                .findById(integer)
                 .orElseThrow(
                         () -> new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
-                                "Aucun film avec ce réalisateur : " + film
+                                "Realisateur not found"
                         )
                 );
+    }
+
+    public void deleteById(Integer id) {
+        this.findById(id);
+
+
+        List<Film> filmsAvecCeRealisateur = filmService.findAllByRealisateurId(id);
+
+        filmsAvecCeRealisateur.forEach(
+                film -> {
+                    film.setRealisateur(null);
+                    filmService.save(film);
+                }
+        );
+
+        realisateurRepository.deleteById(id);
     }
 }

@@ -22,11 +22,7 @@ public class Realisateur {
 
     private String nom;
     private String prenom;
-    @ManyToMany(
-            mappedBy = "realisateurs",
-            cascade = CascadeType.PERSIST
 
-    )
-    private List<Film> films = new ArrayList<>();
 
 }
+

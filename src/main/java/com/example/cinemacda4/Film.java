@@ -4,6 +4,7 @@ import com.example.cinemacda4.acteur.Acteur;
 import com.example.cinemacda4.realisateur.Realisateur;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,13 +18,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name= "film")
+@Table(name = "film")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-
-//ne pas utiliser tjs @Data car trop lourd ici dto pas pb mais entité pas recommandé
 public class Film {
     @Id
     @GeneratedValue
@@ -33,7 +32,7 @@ public class Film {
     private String titre;
 
     @Column(nullable = false)
-    private LocalDate dateDeSortie;
+    private LocalDate dateSortie;
 
     @Column(nullable = false)
     private int duree;
@@ -41,17 +40,15 @@ public class Film {
     @Column(length = 500)
     private String synopsis;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="realisateur_id")
-    private Realisateur realisteur;
+    @ManyToOne // One Realisateur to Many Film
+    @JoinColumn(name = "realisateur_id")
+    private Realisateur realisateur;
 
     @ManyToMany
     @JoinTable(
-            name= "acteur_film",
-            joinColumns =@JoinColumn(name= "film_id"),
-            inverseJoinColumns = @JoinColumn (name= "acteur_id")
+            name = "acteur_film",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "acteur_id")
     )
-
-    private List<Acteur> acteur =new ArrayList<>();
-
+    private List<Acteur> acteurs = new ArrayList<>();
 }
