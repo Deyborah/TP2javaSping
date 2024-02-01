@@ -1,12 +1,20 @@
 package com.example.cinemacda4;
 
+import com.example.cinemacda4.acteur.ActeurSansFilmDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.example.cinemacda4.acteur.Acteur;
+
+import com.example.cinemacda4.realisateur.Realisateur;
+
+
+import java.util.List;
 @RestController
 @RequestMapping("/films")
+
 public class FilmController {
     private final FilmService filmService;
 
@@ -35,7 +43,21 @@ public class FilmController {
     @GetMapping("/{id}") // /films/1
     public FilmCompletDto findById(@PathVariable Integer id) {
         Film film = filmService.findById(id);
-        return objectMapper.convertValue(film, FilmCompletDto.class);
+
+        FilmCompletDto filmCompletDto = new FilmCompletDto();
+        filmCompletDto.setId(film.getId());
+        filmCompletDto.setDuree(film.getDuree());
+        filmCompletDto.setSynopsis(film.getSynopsis());
+        filmCompletDto.setRealisateur(film.getRealisateur());
+        filmCompletDto.setDateSortie(film.getDateSortie());
+        filmCompletDto.setActeurs(
+                film.getActeurs().stream().map(
+                        acteur -> objectMapper.convertValue(acteur, ActeurSansFilmDto.class)
+                ).toList()
+        );
+
+
+        return filmCompletDto;
     }
 
     @DeleteMapping("/{id}")
@@ -53,13 +75,17 @@ public class FilmController {
         return filmService.findByTitre(titre);
     }
 
+    @GetMapping("/{id}/acteurs")
+    public List<ActeurSansFilmDto> findActeursByFilm(@PathVariable Integer id) {
+        List<Acteur> acteurs = filmService.findActeursByFilm(id);
 
-    @GetMapping
-    public List<FilmSansActeurDto> findAlls() {
-        return filmService.findAll().stream().map(
-                film -> objectMapper.convertValue(film, FilmSansActeurDto.class)
+        return acteurs.stream().map(
+                acteur -> objectMapper.convertValue(acteur, ActeurSansFilmDto.class)
         ).toList();
     }
 
+    @GetMapping("/{id}/realisateurs")
+    public Realisateur findRealisateursByFilm(@PathVariable Integer id) {
+        return filmService.findById(id).getRealisateur();
+    }
 }
-

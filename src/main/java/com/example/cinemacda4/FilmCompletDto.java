@@ -1,6 +1,7 @@
 package com.example.cinemacda4;
 
 import com.example.cinemacda4.acteur.ActeurSansFilmDto;
+import com.example.cinemacda4.realisateur.Realisateur;
 import com.example.cinemacda4.realisateur.RealisateurDto;
 import lombok.Data;
 
@@ -20,8 +21,9 @@ import java.util.List;
 
         private String synopsis;
 
-        private RealisateurDto realisateur;
+        private Realisateur realisateur;
 
         private List<ActeurSansFilmDto> acteurs = new ArrayList<>();
-    }
+
+}
 

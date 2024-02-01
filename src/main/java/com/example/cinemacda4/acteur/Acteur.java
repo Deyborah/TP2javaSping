@@ -2,6 +2,8 @@ package com.example.cinemacda4.acteur;
 
 
 import com.example.cinemacda4.Film;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,20 +16,23 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Acteur {
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 
-    @Id
-    @GeneratedValue
 
-    private Integer id;
+    public class Acteur {
+        @Id
+        @GeneratedValue
+        private Integer id;
 
-    private String nom;
+        private String nom;
 
-    private String prenom;
+        private String prenom;
 
-    @ManyToMany(
-            mappedBy = "acteurs",
-            cascade = CascadeType.PERSIST
-    )
-    private List<Film> films = new ArrayList<>();
-}
+        @ManyToMany(
+                mappedBy = "acteurs"
+        )
+        private List<Film> films = new ArrayList<>();
+    }
