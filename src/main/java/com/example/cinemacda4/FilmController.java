@@ -3,18 +3,13 @@ package com.example.cinemacda4;
 import com.example.cinemacda4.acteur.ActeurSansFilmDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import com.example.cinemacda4.acteur.Acteur;
-
 import com.example.cinemacda4.realisateur.Realisateur;
+import org.springframework.http.HttpStatus;
 
-
-import java.util.List;
 @RestController
 @RequestMapping("/films")
-
 public class FilmController {
     private final FilmService filmService;
 
@@ -36,7 +31,9 @@ public class FilmController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Film save(@RequestBody Film film) {
+
         return filmService.save(film);
     }
 
@@ -87,5 +84,28 @@ public class FilmController {
     @GetMapping("/{id}/realisateurs")
     public Realisateur findRealisateursByFilm(@PathVariable Integer id) {
         return filmService.findById(id).getRealisateur();
+    }
+
+    @PostMapping("/{id}/acteurs")
+    public FilmCompletDto addActorToFilm(@PathVariable Integer id, @RequestBody Acteur acteur) {
+        Film film = filmService.addActorToFilm(id, acteur);
+
+        FilmCompletDto filmCompletDto = new FilmCompletDto();
+        filmCompletDto.setId(film.getId());
+        filmCompletDto.setDuree(film.getDuree());
+        filmCompletDto.setRealisateur(film.getRealisateur());
+        filmCompletDto.setDateSortie(film.getDateSortie());
+        filmCompletDto.setSynopsis(film.getSynopsis());
+        filmCompletDto.setActeurs(
+                film.getActeurs().stream().map(
+                        unmappedActor -> objectMapper.convertValue(
+                                unmappedActor,
+                                ActeurSansFilmDto.class
+
+                        )
+                ).toList()
+        );
+
+        return filmCompletDto;
     }
 }

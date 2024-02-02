@@ -8,60 +8,59 @@ import com.example.cinemacda4.acteur.ActeurReduitDto;
 import com.example.cinemacda4.acteur.ActeurSansFilmDto;
 
 
+@RestController
+@RequestMapping("/acteurs")
+public class ActeurController {
+    private final ActeurService acteurService;
 
-    @RestController
-    @RequestMapping("/acteurs")
-    public class ActeurController {
-        private final ActeurService acteurService;
-
-        private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
 
-        public ActeurController(
-                ActeurService acteurService,
-                ObjectMapper objectMapper
-        ) {
-            this.acteurService = acteurService;
-            this.objectMapper = objectMapper;
-        }
-
-        @PostMapping
-        public Acteur save(@RequestBody Acteur entity) {
-            return acteurService.save(entity);
-        }
-
-        @GetMapping("/{id}")
-        public ActeurReduitDto findById(@PathVariable Integer id) {
-
-            Acteur acteur = acteurService.findById(id);
-
-            ActeurReduitDto acteurReduitDto = new ActeurReduitDto();
-
-            acteurReduitDto.setId(acteur.getId());
-            acteurReduitDto.setNom(acteur.getNom());
-            acteurReduitDto.setPrenom(acteur.getPrenom());
-
-            acteurReduitDto.setFilms(
-                    acteur.getFilms().stream().map(
-                            film -> objectMapper.convertValue(film, FilmSansActeurDto.class)
-                    ).toList()
-            );
-
-            return acteurReduitDto;
-        }
-
-        @DeleteMapping("/{id}")
-        public void delete(@RequestBody Acteur acteur) {
-            acteurService.delete(acteur);
-        }
-
-        @GetMapping
-        public List<ActeurSansFilmDto> findAll() {
-
-            List<Acteur> acteurs = acteurService.findAll();
-
-            return acteurs.stream().map(
-                    acteur -> objectMapper.convertValue(acteur, ActeurSansFilmDto.class)
-            ).toList();
-        }
+    public ActeurController(
+            ActeurService acteurService,
+            ObjectMapper objectMapper
+    ) {
+        this.acteurService = acteurService;
+        this.objectMapper = objectMapper;
     }
+
+    @PostMapping
+    public Acteur save(@RequestBody Acteur entity) {
+        return acteurService.save(entity);
+    }
+
+    @GetMapping("/{id}")
+    public ActeurReduitDto findById(@PathVariable Integer id) {
+
+        Acteur acteur = acteurService.findById(id);
+
+        ActeurReduitDto acteurReduitDto = new ActeurReduitDto();
+
+        acteurReduitDto.setId(acteur.getId());
+        acteurReduitDto.setNom(acteur.getNom());
+        acteurReduitDto.setPrenom(acteur.getPrenom());
+
+        acteurReduitDto.setFilms(
+                acteur.getFilms().stream().map(
+                        film -> objectMapper.convertValue(film, FilmSansActeurDto.class)
+                ).toList()
+        );
+
+        return acteurReduitDto;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@RequestBody Acteur acteur) {
+        acteurService.delete(acteur);
+    }
+
+    @GetMapping
+    public List<ActeurSansFilmDto> findAll() {
+
+        List<Acteur> acteurs = acteurService.findAll();
+
+        return acteurs.stream().map(
+                acteur -> objectMapper.convertValue(acteur, ActeurSansFilmDto.class)
+        ).toList();
+    }
+}

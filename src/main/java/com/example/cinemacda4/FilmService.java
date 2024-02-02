@@ -8,31 +8,54 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FilmService {
     private final FilmRepository filmRepository;
 
-    public FilmService(FilmRepository filmRepository) {
+    private final ActeurService acteurService;
+
+    public FilmService(FilmRepository filmRepository, ActeurService acteurService) {
         this.filmRepository = filmRepository;
+        this.acteurService = acteurService;
     }
 
     public List<Film> findAll() {
         return filmRepository.findAll();
     }
 
-    public Film save(Film film) {
+    public Film save(Film film) throws BadRequestException {
+        verifyFilm(film);
+
         return filmRepository.save(film);
+    }
+
+    private static void verifyFilm(Film film) {
+        List<String> erreurs = new ArrayList<>();
+
+        if (film.getTitre() == null) {
+            erreurs.add("Le titre est obligatoire");
+        }
+
+        if (film.getDateSortie() == null) {
+            erreurs.add("La date de sortie est obligatoire");
+        }
+
+        if (film.getRealisateur() == null) {
+            erreurs.add("Le réalisateur est obligatoire");
+        }
+
+        if (!erreurs.isEmpty()) {
+            throw new BadRequestException(erreurs);
+        }
     }
 
     public Film findById(Integer id) {
         return filmRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Film Non trouvé"
-                        )
+                        () -> new FilmNotFoundException(id)
                 );
     }
 
@@ -67,18 +90,15 @@ public class FilmService {
         Film film = this.findById(id);
         return film.getActeurs();
     }
-    private ActeurService acteurService;
-
-    public FilmService(){
-        acteurService = new acteurService();
-    }
-    public FilmService findById(@PathVariable Integer id){
-    return findById(id).acteurService;
-    }
 
 
-    public Film save(FilmService entity) {
+    public Film addActorToFilm(Integer id, Acteur acteur) {
 
-        return FilmService.save(entity);
+        Film film = this.findById(id);
+        acteur = acteurService.findById(acteur.getId());
+
+        film.getActeurs().add(acteur);
+
+        return this.save(film);
     }
 }
