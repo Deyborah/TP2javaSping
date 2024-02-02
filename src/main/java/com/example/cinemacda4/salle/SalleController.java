@@ -21,7 +21,7 @@ public class SalleController {
     @GetMapping
     public List<Salle> findAll() {
         return salleService.findAll().stream().map(
-                film -> objectMapper.convertValue(Salle, SalleService.class)
+                salle -> objectMapper.convertValue(salle, Salle.class)
         ).toList();
     }
 
@@ -34,6 +34,7 @@ public class SalleController {
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Integer id) {
+
         SalleService.deleteById(id);
     }
 
@@ -58,7 +59,7 @@ public class SalleController {
         salle.setNumero(salle.getNumero());
         salle.setCapacite(salle.getCapacite().stream()).map(
                 unmappedSalle -> objectMapper.convertValue(
-                        unmappedSalle,
+                        unmappedSalle
                         SalleService.class).toList()
         );
 

@@ -2,7 +2,6 @@ package com.example.cinemacda4.sceance;
 
 import com.example.cinemacda4.BadRequestException;
 import com.example.cinemacda4.film.FilmNotFoundException;
-import com.example.cinemacda4.sceance
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,10 +15,12 @@ public class SceanceService {
         this.sceanceRepository = sceanceRepository;
     }
 
+    //liste des sceances
     public List<Sceance> findAll() {
 
         return sceanceRepository.findAll();
     }
+    //sauvegarde données de sceance
     public Sceance save(Sceance sceance) throws BadRequestException {
         verifySceance(sceance);
 
@@ -28,6 +29,8 @@ public class SceanceService {
 
     private void verifySceance(Sceance sceance) {
     }
+
+    //chercher les sceances via id
     public Sceance findById(Integer id) {
         return sceanceRepository.findById(id)
                 .orElseThrow(
@@ -35,9 +38,10 @@ public class SceanceService {
                 );
     }
 
+    //supprimer sceance par l'id
     public void deleteById(Integer id) {
-        Sceance salle = this.findById(id);
-        sceanceRepository.delete(salle);
+        Sceance sceance = this.findById(id);
+        sceanceRepository.delete(sceance);
     }
 
     public Sceance update(Sceance sceance) {
@@ -45,14 +49,13 @@ public class SceanceService {
         return sceanceRepository.save(sceance);
     }
 
-    public Sceance findAllBySceanceid(String nom) {
-        return sceanceRepository.findAllBySceanceid(nom)
+    public Sceance findAllByPlace(int place) {
+        return (Sceance) sceanceRepository.findAllBySceanceid(place)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Aucun salle ayant ce nom"
+                        "cette sceance n'as pas de place définit"
                 ));
     }
 
 }
 
-}
