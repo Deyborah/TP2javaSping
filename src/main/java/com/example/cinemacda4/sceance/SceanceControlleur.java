@@ -1,9 +1,5 @@
 package com.example.cinemacda4.sceance;
 
-import com.example.cinemacda4.film.Film;
-import com.example.cinemacda4.film.FilmService;
-import com.example.cinemacda4.film.filmDto.FilmReduitDto;
-import com.example.cinemacda4.salle.Salle;
 import com.example.cinemacda4.salle.SalleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -62,8 +58,8 @@ public class SceanceControlleur {
         sceance.setDate(sceance.getDate());
         sceance.setPrix(sceance.getPrix().stream().map(
                 unmappedService -> objectMapper.convertValue(
-                        unmappedService SalleService.class).toList()
-        );
+                        unmappedService,SalleService.class).toList()
+        ));
 
 
         return sceance;

@@ -21,3 +21,5 @@ public class Ticket {
     private int nombrePlacesReservés;
     private int nombrePlacesRestantes;
     private Sceance sceance;
+
+}

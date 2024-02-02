@@ -57,12 +57,11 @@ public class SalleController {
         salle.setId(salle.getId());
         salle.setNom(salle.getNom());
         salle.setNumero(salle.getNumero());
-        salle.setCapacite(salle.getCapacite().stream()).map(
+        salle.setCapacite(salle.getCapacite().stream().map(
                 unmappedSalle -> objectMapper.convertValue(
-                        unmappedSalle
+                        unmappedSalle,
                         SalleService.class).toList()
-        );
-
+        ));
 
         return salle;
     }

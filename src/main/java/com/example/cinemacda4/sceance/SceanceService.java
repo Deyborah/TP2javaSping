@@ -1,7 +1,6 @@
 package com.example.cinemacda4.sceance;
 
 import com.example.cinemacda4.BadRequestException;
-import com.example.cinemacda4.film.FilmNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,10 +31,11 @@ public class SceanceService {
 
     //chercher les sceances via id
     public Sceance findById(Integer id) {
-        return sceanceRepository.findById(id)
-                .orElseThrow(
-                        () -> new FilmNotFoundException(id)
-                );
+        return sceanceRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "sceance non trouvé"
+                ));
     }
 
     //supprimer sceance par l'id
@@ -50,7 +50,7 @@ public class SceanceService {
     }
 
     public Sceance findAllByPlace(int place) {
-        return (Sceance) sceanceRepository.findAllBySceanceid(place)
+        return (Sceance) sceanceRepository.findAllByPlace(place)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "cette sceance n'as pas de place définit"
