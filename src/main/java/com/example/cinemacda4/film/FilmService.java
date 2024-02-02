@@ -1,11 +1,10 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film;
 
+import com.example.cinemacda4.BadRequestException;
 import com.example.cinemacda4.acteur.Acteur;
-import com.example.cinemacda4.acteur.ActeurRepository;
 import com.example.cinemacda4.acteur.ActeurService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;

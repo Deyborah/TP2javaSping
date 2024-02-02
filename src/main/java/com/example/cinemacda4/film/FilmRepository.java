@@ -1,4 +1,4 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

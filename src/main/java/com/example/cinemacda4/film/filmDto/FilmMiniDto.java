@@ -1,4 +1,4 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film.filmDto;
 
 import lombok.Data;
 import org.springframework.cglib.core.Local;

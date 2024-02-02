@@ -1,7 +1,7 @@
 package com.example.cinemacda4.acteur;
 
 
-import com.example.cinemacda4.Film;
+import com.example.cinemacda4.film.Film;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;

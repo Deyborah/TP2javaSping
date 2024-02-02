@@ -1,13 +1,12 @@
 package com.example.cinemacda4.realisateur;
 
-import com.example.cinemacda4.Film;
-import com.example.cinemacda4.FilmSansActeursNiRealisateurDto;
+import com.example.cinemacda4.film.Film;
+import com.example.cinemacda4.film.filmDto.FilmSansActeursNiRealisateurDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import com.example.cinemacda4.realisateur.RealisateurAvecFilmsDto;
 
-    @RestController
+@RestController
     @RequestMapping("/realisateurs")
     public class RealisateurController {
         private final RealisateurService realisateurService;

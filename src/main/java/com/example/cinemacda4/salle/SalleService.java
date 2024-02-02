@@ -1,8 +1,7 @@
 package com.example.cinemacda4.salle;
 
 import com.example.cinemacda4.BadRequestException;
-import com.example.cinemacda4.Film;
-import com.example.cinemacda4.FilmNotFoundException;
+import com.example.cinemacda4.film.FilmNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 

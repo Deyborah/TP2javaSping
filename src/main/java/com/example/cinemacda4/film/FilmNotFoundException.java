@@ -1,4 +1,4 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

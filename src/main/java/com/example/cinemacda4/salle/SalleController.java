@@ -1,11 +1,6 @@
 package com.example.cinemacda4.salle;
 
-import com.example.cinemacda4.Film;
-import com.example.cinemacda4.FilmCompletDto;
-import com.example.cinemacda4.FilmReduitDto;
-import com.example.cinemacda4.acteur.Acteur;
-import com.example.cinemacda4.acteur.ActeurSansFilmDto;
-import com.example.cinemacda4.realisateur.Realisateur;
+import com.example.cinemacda4.film.Film;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +9,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/salles")
-public class SalleControlleur {
+public class SalleController {
 
     private final SalleService salleService;
     private final ObjectMapper objectMapper;
-    public SalleControlleur(SalleService salleService, ObjectMapper objectMapper) {
+    public SalleController(SalleService salleService, ObjectMapper objectMapper) {
         this.salleService = salleService;
         this. objectMapper= objectMapper;
     }
@@ -44,6 +39,7 @@ public class SalleControlleur {
 
     @PutMapping
     public Film update(@RequestBody Film film) {
+
         return SalleService.update(film);
     }
 

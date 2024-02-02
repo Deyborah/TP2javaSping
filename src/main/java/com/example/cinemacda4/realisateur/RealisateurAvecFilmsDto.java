@@ -1,6 +1,6 @@
 package com.example.cinemacda4.realisateur;
 
-import com.example.cinemacda4.FilmMiniDto;
+import com.example.cinemacda4.film.filmDto.FilmMiniDto;
 import lombok.Data;
 
 import java.util.ArrayList;

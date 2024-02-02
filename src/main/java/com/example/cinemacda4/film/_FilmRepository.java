@@ -1,4 +1,4 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

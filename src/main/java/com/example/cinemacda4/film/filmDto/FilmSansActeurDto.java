@@ -1,4 +1,4 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film.filmDto;
 
 import com.example.cinemacda4.realisateur.Realisateur;
 import lombok.Data;

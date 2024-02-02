@@ -1,4 +1,4 @@
-package com.example.cinemacda4;
+package com.example.cinemacda4.film;
 
 import com.example.cinemacda4.acteur.Acteur;
 import com.example.cinemacda4.realisateur.Realisateur;

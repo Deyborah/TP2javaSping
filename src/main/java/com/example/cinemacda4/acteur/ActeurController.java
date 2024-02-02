@@ -1,11 +1,9 @@
 package com.example.cinemacda4.acteur;
 
-import com.example.cinemacda4.FilmSansActeurDto;
+import com.example.cinemacda4.film.filmDto.FilmSansActeurDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import com.example.cinemacda4.acteur.ActeurReduitDto;
-import com.example.cinemacda4.acteur.ActeurSansFilmDto;
 
 
 @RestController

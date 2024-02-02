@@ -1,8 +1,8 @@
 package com.example.cinemacda4.realisateur;
 
-import com.example.cinemacda4.Film;
-import com.example.cinemacda4.FilmMiniDto;
-import com.example.cinemacda4.FilmService;
+import com.example.cinemacda4.film.Film;
+import com.example.cinemacda4.film.filmDto.FilmMiniDto;
+import com.example.cinemacda4.film.FilmService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

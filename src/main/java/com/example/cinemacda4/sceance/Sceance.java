@@ -1,6 +1,6 @@
 package com.example.cinemacda4.sceance;
 
-import com.example.cinemacda4.Film;
+import com.example.cinemacda4.film.Film;
 import com.example.cinemacda4.salle.Salle;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,10 +26,9 @@ public class Sceance {
 
     private Film film;
 
-    private Prix float;
+    private Float prix;
 
-
-
+    private int placeDisponible;
 
 
 }
